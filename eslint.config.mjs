@@ -4,6 +4,7 @@ import tseslintParser from '@typescript-eslint/parser';
 
 import unusedImports from 'eslint-plugin-unused-imports';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import globals from 'globals';
 
 export default [
   eslint.configs.recommended,
@@ -27,14 +28,8 @@ export default [
         },
       },
       globals: {
-        process: true,
-        __dirname: true,
-        global: true,
-        Buffer: true,
-        console: true,
-        Express: true,
-        URL: true,
-        URLSearchParams: true,
+        ...globals.node,
+        ...globals.jest,
       },
     },
     plugins: {

@@ -1,6 +1,6 @@
 export enum TransactionStatus {
   PENDING = 'PENDING',
-  COMPLETED = 'COMPLETED',
+  APPROVED = 'APPROVED',
   FAILED = 'FAILED',
   CANCELLED = 'CANCELLED',
 }
@@ -13,6 +13,7 @@ export enum TransactionType {
 export enum PaymentMethod {
   CARD = 'CARD',
   TRANSFER = 'TRANSFER',
+  WITHDRAWAL = 'WITHDRAWAL',
 }
 
 export enum Currency {

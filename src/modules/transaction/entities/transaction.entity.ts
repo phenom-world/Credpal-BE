@@ -29,8 +29,8 @@ export class Transaction extends BaseEntity {
   @Column({ type: 'varchar', length: 255 })
   reference: string;
 
-  @Column({ type: 'json', nullable: true })
-  memo: object;
+  @Column({ nullable: true })
+  note: string;
 
   @ManyToOne(() => User, (user) => user.transactions)
   user: User;

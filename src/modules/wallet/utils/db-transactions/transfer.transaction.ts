@@ -59,8 +59,9 @@ export class TransferTransaction extends DbTransactionBase<
 
     // Get recipient wallet with pessimistic lock
     const recipientWallet = await manager.findOne(Wallet, {
-      where: { user: { id: data.data.recipientId } },
+      where: { user: { email: data.data.recipientEmail } },
       lock: { mode: 'pessimistic_write' },
+      relations: ['user'],
     });
 
     if (!recipientWallet) {
@@ -92,7 +93,7 @@ export class TransferTransaction extends DbTransactionBase<
       user: { id: data.userId },
       currency: data.data.currency,
       // Note: The actual funds transfer is handled by the payment processor's webhook system.
-      status: TransactionStatus.COMPLETED,
+      status: TransactionStatus.APPROVED,
     });
 
     // Create transaction for recipient
@@ -102,9 +103,9 @@ export class TransferTransaction extends DbTransactionBase<
       paymentMethod: PaymentMethod.TRANSFER,
       reference: transactionReference,
       currency: data.data.currency,
-      user: { id: data.data.recipientId },
+      user: { id: recipientWallet.user.id },
       // Note: The actual funds transfer is handled by the payment processor's webhook system.
-      status: TransactionStatus.COMPLETED,
+      status: TransactionStatus.APPROVED,
     });
 
     await manager.save([senderTransaction, recipientTransaction]);

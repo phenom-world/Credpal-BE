@@ -9,10 +9,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AppException } from 'src/common/factory/exception.factory';
 
 import { ApiDataResponse, ResponseDto } from '../../common/dto/response.dto';
 import { AuthUser } from '../auth/decorators/get-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { User } from '../user/entities/user.entity';
 import { CreateWalletDto } from './dto/create-wallet.dto';
 import { FundDto } from './dto/fund-wallet';
 import { TransferDto } from './dto/transfer.dto';
@@ -118,10 +120,13 @@ export class WalletController {
   @ApiDataResponse(WalletResponseDto, 'Transfer successful')
   @ApiResponse({ status: 400, description: 'Invalid request', type: ResponseDto })
   async transfer(
-    @AuthUser('id') userId: string,
+    @AuthUser() user: User,
     @Body() transferDto: TransferDto
   ): Promise<ResponseDto<WalletResponseDto>> {
-    const wallet = await this.walletService.transfer(userId, transferDto);
+    if (user.email === transferDto.recipientEmail) {
+      throw new AppException('You cannot initate transfer to yourself', HttpStatus.BAD_REQUEST);
+    }
+    const wallet = await this.walletService.transfer(user.id, transferDto);
     return {
       statusCode: HttpStatus.OK,
       data: wallet,

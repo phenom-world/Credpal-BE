@@ -80,7 +80,7 @@ export class FundWithdrawTransaction extends DbTransactionBase<
       currency: data.data.currency,
       user: { id: data.userId },
       // Note: The actual funds transfer is handled by the payment processor's webhook system.
-      status: TransactionStatus.COMPLETED,
+      status: TransactionStatus.APPROVED,
     });
 
     await manager.save(transaction);

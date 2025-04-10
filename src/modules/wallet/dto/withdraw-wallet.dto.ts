@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty, IsNumber, IsPositive } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
 
 import { Currency } from './create-wallet.dto';
 
@@ -21,4 +21,12 @@ export class WithdrawDto {
   @IsEnum(Currency)
   @IsNotEmpty()
   currency: Currency;
+
+  @ApiProperty({
+    description: 'The note of the transaction',
+    example: 'Funding wallet',
+  })
+  @IsString()
+  @IsOptional()
+  note?: string;
 }

@@ -21,7 +21,7 @@ export class TransactionResponseDto {
   @ApiProperty({
     description: 'Status of the transaction',
     enum: TransactionStatus,
-    example: TransactionStatus.COMPLETED,
+    example: TransactionStatus.APPROVED,
   })
   status: TransactionStatus;
 
@@ -39,11 +39,11 @@ export class TransactionResponseDto {
   reference: string;
 
   @ApiProperty({
-    description: 'Transaction memo',
-    example: { description: 'Monthly salary deposit' },
+    description: 'Transaction note',
+    example: 'Monthly salary deposit',
     required: false,
   })
-  memo?: object;
+  note?: string;
 
   @Exclude()
   user: User;

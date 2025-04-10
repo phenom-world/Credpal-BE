@@ -8,10 +8,13 @@ export class WalletResponseDto {
   id: string;
 
   @ApiProperty({ description: 'Wallet name', example: 'My Wallet' })
-  name!: string;
+  name: string;
+
+  @ApiProperty({ description: 'Wallet balance', example: 1000 })
+  balance: number;
 
   @ApiProperty({ description: 'Currency', enum: Currency, example: Currency.NGN })
-  currency!: Currency;
+  currency: Currency;
 
   @ApiProperty({
     description: 'Wallet description',
@@ -21,10 +24,10 @@ export class WalletResponseDto {
   description?: string;
 
   @ApiProperty({ description: 'Date of creation', example: '2024-04-08T12:00:00.000Z' })
-  createdAt!: Date;
+  createdAt: Date;
 
   @ApiProperty({ description: 'Date of last update', example: '2024-04-08T12:00:00.000Z' })
-  updatedAt!: Date;
+  updatedAt: Date;
 
   constructor(partial: Partial<Wallet>) {
     Object.assign(this, partial);

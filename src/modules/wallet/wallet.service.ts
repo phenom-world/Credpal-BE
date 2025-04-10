@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { type Repository } from 'typeorm';
 
 import { AppException } from '../../common/factory/exception.factory';
-import { PaymentMethod } from '../transaction/enum/transaction.enum';
 import type { CreateWalletDto } from './dto/create-wallet.dto';
 import { FundDto } from './dto/fund-wallet';
 import type { TransferDto } from './dto/transfer.dto';
@@ -65,7 +64,6 @@ export class WalletService {
       data: {
         amount: withdrawDto.amount,
         currency: withdrawDto.currency,
-        paymentMethod: PaymentMethod.TRANSFER,
       },
       userId,
     });
@@ -74,15 +72,11 @@ export class WalletService {
   }
 
   async transfer(userId: string, transferDto: TransferDto): Promise<WalletResponseDto> {
-    if (userId === transferDto.recipientId) {
-      throw new AppException('You cannot initate transfer to yourself', HttpStatus.BAD_REQUEST);
-    }
-
     const { senderWallet: updatedWallet } = await this.transferTransaction.run({
       data: {
         amount: transferDto.amount,
         currency: transferDto.currency,
-        recipientId: transferDto.recipientId,
+        recipientEmail: transferDto.recipientEmail,
       },
       userId,
     });

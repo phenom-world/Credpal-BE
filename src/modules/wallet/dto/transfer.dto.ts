@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty, IsNumber, IsPositive, IsUUID } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 
 import { Currency } from './create-wallet.dto';
 
@@ -24,10 +32,18 @@ export class TransferDto {
   currency: Currency;
 
   @ApiProperty({
-    description: 'Recipient wallet ID',
-    example: '123e4567-e89b-12d3-a456-426614174000',
+    description: 'Recipient email',
+    example: 'recipient@example.com',
   })
-  @IsUUID()
+  @IsEmail()
   @IsNotEmpty()
-  recipientId: string;
+  recipientEmail: string;
+
+  @ApiProperty({
+    description: 'The note of the transaction',
+    example: 'Funding wallet',
+  })
+  @IsString()
+  @IsOptional()
+  note?: string;
 }

@@ -1,14 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsEnum,
-  IsNotEmpty,
-  IsNumber,
-  IsObject,
-  IsOptional,
-  IsString,
-  IsUUID,
-  Min,
-} from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Min } from 'class-validator';
 
 import { Currency, PaymentMethod, TransactionType } from '../enum/transaction.enum';
 
@@ -60,14 +51,12 @@ export class CreateTransactionDto {
   currency: Currency;
 
   @ApiProperty({
-    example: {
-      description: 'Monthly salary deposit',
-    },
+    example: 'Monthly salary deposit',
     required: false,
   })
   @IsOptional()
-  @IsObject()
-  memo?: object;
+  @IsString()
+  note?: string;
 
   @ApiProperty({
     description: 'ID of the recipient (required for TRANSFER type)',
@@ -76,7 +65,7 @@ export class CreateTransactionDto {
   })
   @IsOptional()
   @IsString()
-  recipientId?: string;
+  recipientEmail?: string;
 
   @ApiProperty({
     description: 'ID of the wallet associated with the transaction',

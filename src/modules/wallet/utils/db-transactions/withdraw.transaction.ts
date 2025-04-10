@@ -17,7 +17,6 @@ interface TxnInput {
   data: {
     amount: number;
     currency: Currency;
-    paymentMethod: PaymentMethod;
   };
   userId: string;
 }
@@ -55,11 +54,11 @@ export class WithdrawTransaction extends DbTransactionBase<TxnInput, { wallet: W
     const transaction = manager.create(Transaction, {
       amount: data.data.amount,
       type: TransactionType.DEBIT,
-      paymentMethod: data.data.paymentMethod,
+      paymentMethod: PaymentMethod.WITHDRAWAL,
       reference: `TXN-${Date.now()}`,
       currency: data.data.currency,
       user: { id: data.userId },
-      status: TransactionStatus.COMPLETED,
+      status: TransactionStatus.APPROVED,
     });
 
     await manager.save(transaction);

@@ -11,11 +11,8 @@ export class UserResponseDto {
   @ApiProperty({ description: 'The email address of the user' })
   email: string;
 
-  @ApiProperty({ description: 'The first name of the user' })
-  firstName: string;
-
-  @ApiProperty({ description: 'The last name of the user' })
-  lastName: string;
+  @ApiProperty({ description: 'The full name of the user' })
+  fullName: string;
 
   @ApiProperty({ description: 'Whether the user account is active' })
   isActive: boolean;
